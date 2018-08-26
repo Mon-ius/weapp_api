@@ -1,5 +1,11 @@
 ## WEAPP_API
 
+### PreKnowledge
+
+#### Host: **api.xxx.com**
+#### Python Version: 3.6+
+#### DataBase: PostgreSQL
+
 ### Features
 
 #### 1. User Login
