@@ -23,16 +23,31 @@ def create_app(config_class=Config):
     configure_uploads(app, (photos, sphotos))  # 文件系统初始化
     patch_request_class(app)  # 文件大小限制，默认为16MB
 
-
-    
-    from app.main import bp as main_bp  
-    app.register_blueprint(main_bp)
-
     from app.admin import bp as admin_bp  
     app.register_blueprint(admin_bp)
-
+    
     from app.auth import bp as auth_bp  
-    app.register_blueprint(auth_bp, url_prefix='/auth')
+    from app.auth.routes import StuAPI,StuListAPI
+
+    api_stu = Api(auth_bp)
+
+    api_stu.add_resource(StuListAPI, '/stu')
+    api_stu.add_resource(StuAPI, '/stu/<int:id>')
+    app.register_blueprint(auth_bp)
+    
+    from app.main import bp as main_bp  
+    from app.main.routes import TaskAPI , TaskListAPI
+
+    api_main = Api(main_bp)
+
+    api_main.add_resource(TaskListAPI, '/tasks')
+    api_main.add_resource(TaskAPI, '/tasks/<int:id>')
+
+    app.register_blueprint(main_bp)
+
+
+    #for student/user from weapp
+
 
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)

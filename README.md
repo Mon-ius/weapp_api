@@ -59,7 +59,7 @@
 ==========  ===============================================  =============================
 HTTP 方法   URL                                               动作
 ==========  ===============================================  ==============================
-GET         http://[hostname]/todo/api/v1.0/tasks                 检索任务列表
+GET         http://[hostname]/todo/api/v1.0/tasks                 Get the tasks list
 GET         http://[hostname]/todo/api/v1.0/tasks/[task_id]       检索某个任务
 POST        http://[hostname]/todo/api/v1.0/tasks                 创建新任务
 PUT         http://[hostname]/todo/api/v1.0/tasks/[task_id]       更新任务
@@ -136,6 +136,33 @@ for _ in range(10):
   db.session.add(t)
   db.session.commit()
 
+for _ in range(10):
+  fakes=[
+  f.domain_word(),
+  f.text(),
+  ]
+  tk = Task(
+    title=fakes[0],
+    body=fakes[1],
+    picture=Avatar.generate(size=64,string=fakes[0])
+    )
+  db.session.add(tk)
+  db.session.commit()
+
+
+for _ in range(10):
+  fakes=[
+  f.domain_word(),
+  f.text(),
+  ]
+  a = Answer(
+    title=fakes[0],
+    body=fakes[1],
+    picture=Avatar.generate(size=64,string=fakes[0])
+    sound=Avatar.generate(size=64,string=fakes[1])
+    )
+  db.session.add(a)
+  db.session.commit()
 
 
 
@@ -145,3 +172,30 @@ from PIL import Image
 avatar = Avatar.generate(size=128,string='example@sysnove.fr')
 image = Image.open(io.BytesIO(avatar))
 image.show()
+
+import io
+from gtts import gTTS
+
+tts = gTTS(text='Good morning', lang='en')
+mp3_fp = io.BytesIO()
+
+tts.write_to_fp(mp3_fp)
+
+
+t =Task.query.get(1)
+t.title="adadsda"
+db.session.commit()
+
+
+a = Answer(title='1',body='2')
+
+curl -u miguel:python -i -X DELETE http://127.0.0.1:5000/tasks/16
+curl -u miguel:python -i -H "Content-Type: application/json" -X PUT -d '{"title":"shutdown","body":"2333","done":"false"}' http://127.0.0.1:5000/tasks/15
+
+
+curl -u miguel:python -i -X GET http://127.0.0.1:5000/stu
+curl -u Read:2333 -i -X GET http://127.0.0.1:5000/stu/2
+curl  -i -H "Content-Type: application/json" -X POST -d '{"username":"Read","password":"2333"}' http://127.0.0.1:5000/stu
+curl -u miguel:python -i -X GET http://127.0.0.1:5000/tasks
+curl -u miguel:python -i -X GET http://127.0.0.1:5000/tasks/2
+curl -u miguel:python -i -H "Content-Type: application/json" -X POST -d '{"title":"Read a book","body":"2333","done":"false"}' http://127.0.0.1:5000/tasks

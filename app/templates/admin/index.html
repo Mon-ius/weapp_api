@@ -1,0 +1,44 @@
+{% extends "admin/base.html" %}
+{% block styles %} 
+{{ super() }}
+<style>
+
+</style>
+{% endblock %}
+
+{% block app_content %}
+
+
+    <h3 class="article-title is-color-kube">Sutdent Info</h3>
+    <table class="is-striped">
+        <thead>
+            <tr>
+            {% for key in form[-1].keys()%}
+                <th>{{key}}</th>
+            {% endfor %}
+            </tr>
+        </thead>
+    <tbody>
+        {% for t in form%}
+        <tr>
+            {% for i,j in t.items()%}
+            {% if i=='avatar' %}
+            <td>
+                <image src="{{ j }}"></image>
+            </td>
+            {% else %}
+            <td>{{j}}</td>
+            {% endif %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+        <tfoot>
+            <tr>
+                <td>...</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    
+{% endblock %}%  

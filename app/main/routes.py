@@ -31,18 +31,16 @@ class TaskAPI(Resource):
         task = abort_if_task_doesnt_exist(id)
         return {'task': marshal(task, task_fields)}
 
-    def post(self):
-        args = self.reqparse.parse_args()
-        
-
     def put(self, id):
         task = abort_if_task_doesnt_exist(id)
+        print(task)
         args = self.reqparse.parse_args()
         for k, v in args.items():
             if v != None:
-                task[k] = v
-        db.session.save(task)
-        db.session.commit()
+                task.__dict__[k] = v
+
+        print(task.__dict__)
+        db.session.merge(t)
         return {'task': marshal(task, task_fields)}
 
     def delete(self, id):
@@ -60,31 +58,30 @@ class TaskListAPI(Resource):
         self.reqparse.add_argument(
             'title', type=str, required=True, help='No task title provided', location='json')
         self.reqparse.add_argument(
-            'description', type=str, default="", location='json')
+            'body', type=str, default="", location='json')
         super(TaskListAPI, self).__init__()
 
     def get(self):
-        task = [t for t in tasks.find({'id': {"$gt": 0}})]
-        if not len(task):
+        ts = Task.query.all()
+        if not len(ts):
             abort(400, "Tasks doesn't exist")
-        task = list(map(lambda x: marshal(x, tasks_fields), task))
+        # for i in ts:
+
+        task = list(map(lambda x: marshal(x.__dict__, tasks_fields), ts))
 
         return {'tasks': task}
 
     def post(self):
 
-        t = {
-            'id': None,
-            'title': None,
-            'description': None,
-            'done': False
-        }
 
         args = self.reqparse.parse_args()
-        for k, v in args.items():
-            if v != None:
-                t[k] = v
-        t['id'] = tasks.count()+1
-        # t['id']=30
-        tasks.insert(t)
-        return {'task': marshal(t, tasks_fields)}
+        print(args)
+        t = Task(**args)
+        # g.teach.tasks.append(t)
+        # print(t)
+        db.session.add(t)
+        db.session.commit()
+        # print(t.__dict__)
+        args['id']=len(Task.query.all())
+
+        return {'task': marshal(args, tasks_fields)}

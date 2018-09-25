@@ -1,0 +1,99 @@
+{% extends 'bootstrap/base.html' %}
+
+{% set student=student or"" %}
+{% set teacher=teacher or"" %}
+{% set task=task or"" %}
+
+
+{% block styles %}
+<style>
+    a {
+        text-decoration: none;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="{{ url_for( 'static',filename='css/kube.min.css' )}}">
+<link rel="stylesheet" type="text/css" href="{{ url_for( 'static',filename='css/kube.demo.css' )}}">
+
+
+
+{% endblock %}
+
+{% block title %}
+    {% if title %}{{ title }} - {{ _('WeappAPI') }}{% else %} {{ _('WeappAPI') }}{% endif %}
+{% endblock %}
+
+{% block head %}
+    {{super()}}
+    {% block favicon %}
+        
+    {% endblock %}
+
+    {% block meta %}
+        <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+        <meta charset="utf-8">
+        <meta http-equiv="content-type" content="text/html" />
+        <meta name="author" content="Monius" />
+        <meta name="description" content="an API for wechat app" />
+        <meta name="keywords" content="API,wechat,weapp" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% endblock %}
+{% endblock %}
+
+
+{% block navbar %}
+
+
+
+<div class="demo-navbar is-navbar-container">
+    <div class="is-brand">
+        <b class="is-logo">Pannel</b>
+        <a href="#" class="nav-toggle is-push-right-mobile is-shown-mobile icon-kube-menu" data-kube="toggle" data-target="#navbar-demo">Menue</a>
+            <div id="navbar-demo" class="is-navbar is-hidden-mobile">
+                <nav class="is-push-right">
+                    <ul>
+                        <li class="{{ student }}"><a href="{{ url_for('admin.index')}}">Students</a></li>
+                        <li class="{{ teacher }}"><a href="{{ url_for('admin.teacher')}}">Teachers</a></li>
+                        <li class="{{ task }}"><a href="{{ url_for('admin.task')}}">Tasks</a></li>
+
+                    </ul>
+                </nav>
+            </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+
+{%- block content %}
+
+    <div class="demo-example is-gray">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info" role="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class='main'>
+        {% block app_content %}{% endblock %}
+        <div>
+        {%- block footer %}
+            <footer class="container">
+                <hr>
+                <p class="float-right"><a href="#">Top</a></p>
+                <p class="copyrights-text mb-3 mb-lg-0">&copy; Create in September,2018
+                     By <a href="" > Monius</a>
+                </p>
+            </footer>
+        {%- endblock footer %}
+        </div>
+{%- endblock content %}
+
+{% block scripts %}
+<script src="{{ url_for( 'static',filename='js/kube.min.js' )}}"></script>
+    <script>
+        $K.init();
+    </script>
+{% endblock %}

@@ -16,15 +16,15 @@ stu_fields = {
 task_fields = {
     'title': fields.String,
     'body': fields.String,
-    'picture': fields.Boolean,
+    'picture': fields.String,
     'author': fields.String,
-    'uri': fields.Url('task')
+    # 'uri': fields.Url('task')
 }
 
 tasks_fields = {
     'id': fields.Integer,
     'title': fields.String,
-    'description': fields.String,
+    'body': fields.String,
     'done': fields.Boolean,
 }
 

@@ -15,6 +15,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from ext import db, desc, login
 
+#Teacher is not neeeded
 
 @login.user_loader
 def load_user(id):
@@ -133,7 +134,7 @@ class Task(db.Model):
     teach_id = db.Column(db.Integer, db.ForeignKey('teacher.id'))
 
     def __repr__(self):
-        return '<Task {}>'.format(self.username)
+        return '<Task {}>'.format(self.title)
 
 class Answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -148,4 +149,4 @@ class Answer(db.Model):
     stu_id = db.Column(db.Integer, db.ForeignKey('student.id'))
 
     def __repr__(self):
-        return '<Anwser {}>'.format(self.username)
+        return '<Anwser {}>'.format(self.title)
