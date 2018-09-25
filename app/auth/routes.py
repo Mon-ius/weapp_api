@@ -32,6 +32,7 @@ def verify_password(username_or_token, password):
         if not stu or not stu.verify_password(password):
             return False
     g.stu = stu
+    print(g.stu)
     return True
 
 class StuAPI(Resource):
@@ -45,7 +46,7 @@ class StuAPI(Resource):
         self.reqparse.add_argument(
             'engname', type=str, location='json')
         self.reqparse.add_argument(
-            'exam_date', type=str, location='json')
+            'email', type=str, location='json')
         self.reqparse.add_argument(
             'exam_type', type=str, location='json')
         self.reqparse.add_argument(
@@ -68,10 +69,16 @@ class StuAPI(Resource):
         db.session.merge(stu)
         return {'student': marshal(stu, stu_fields)}
 
+    def delete(self,id):
+        if g.stu.username=="monius":
+            stu = abort_if_stu_doesnt_exist(id)
+            db.session.delete(stu)
+            db.session.commit()
+            return {'result': True}
+        return {'result': False}
 
-    def delete(self):
-        token = g.stu.generate_auth_token(600)
-        return {'token': token.decode('ascii'), 'duration': 600}
+
+
 
 class StuListAPI(Resource):
 
@@ -108,4 +115,9 @@ class StuListAPI(Resource):
             'username': username
         }
 
+    @auth.login_required
+    def delete(self):
+        print(g.stu)
+        token = g.stu.generate_auth_token(600)
+        return {'token': token.decode('ascii'), 'duration': 600}
 

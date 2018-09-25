@@ -72,8 +72,6 @@ class TaskListAPI(Resource):
         return {'tasks': task}
 
     def post(self):
-
-
         args = self.reqparse.parse_args()
         print(args)
         t = Task(**args)

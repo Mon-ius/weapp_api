@@ -193,9 +193,14 @@ curl -u miguel:python -i -X DELETE http://127.0.0.1:5000/tasks/16
 curl -u miguel:python -i -H "Content-Type: application/json" -X PUT -d '{"title":"shutdown","body":"2333","done":"false"}' http://127.0.0.1:5000/tasks/15
 
 
-curl -u miguel:python -i -X GET http://127.0.0.1:5000/stu
+
+curl -u Read:2333 -i -X DELETE http://127.0.0.1:5000/stu
 curl -u Read:2333 -i -X GET http://127.0.0.1:5000/stu/2
-curl  -i -H "Content-Type: application/json" -X POST -d '{"username":"Read","password":"2333"}' http://127.0.0.1:5000/stu
+curl -u Read:2333 -i -H "Content-Type: application/json" -X POST -d '{"username":"Read","password":"2333"}' http://127.0.0.1:5000/stu
+curl -u Read:2333 -i -H "Content-Type: application/json" -X POST -d '{"username":"quryfine","realname":"quryfine","engname":"fuck"}' http://127.0.0.1:5000/stu/101
+
+curl -u Read:2333 -i -H "Content-Type: application/json" -X POST -d '{"username":"quryfine","realname":"quryfine","engname":"fuck","email":"fuckyou@asshole.com","exam_type":"1","score":"32.0"}' http://127.0.0.1:5000/stu/101
+
 curl -u miguel:python -i -X GET http://127.0.0.1:5000/tasks
 curl -u miguel:python -i -X GET http://127.0.0.1:5000/tasks/2
 curl -u miguel:python -i -H "Content-Type: application/json" -X POST -d '{"title":"Read a book","body":"2333","done":"false"}' http://127.0.0.1:5000/tasks
