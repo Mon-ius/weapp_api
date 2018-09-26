@@ -1,7 +1,7 @@
 from app import create_app
 from app.models import Answer, Student, Task, Teacher, User
 from ext import db
-
+import click
 app = create_app()
 
 @app.shell_context_processor
