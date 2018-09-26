@@ -2,7 +2,7 @@ from flask import (abort, flash, g, jsonify, redirect, render_template, make_res
                    request, url_for)
 from flask_babel import _
 from flask_babel import lazy_gettext as _l
-from flask_images import resized_img_src
+
 from flask_login import current_user, login_user, logout_user
 from flask_restful import Resource, fields, marshal, reqparse
 
