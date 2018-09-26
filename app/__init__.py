@@ -2,7 +2,7 @@ import os
 import logging
 from flask import Flask, request, current_app
 from flask_uploads import configure_uploads, patch_request_class
-from ext import db, migrate, bootstrap, Config, images, login, photos, sphotos, babel
+from ext import db, migrate, bootstrap, Config, login, photos, sphotos, babel
 from logging.handlers import SMTPHandler, RotatingFileHandler
 from flask_restful import Api, Resource, url_for
 
@@ -14,7 +14,7 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)  # 数据库迁移初始化
     bootstrap.init_app(app)  # Bootstrap初始化
     babel.init_app(app)  # I18nL10n 初始化
-    images.init_app(app)  # Imagine Normalise 初始化
+
     login.init_app(app)  # 用户系统 初始化
     login.login_view = 'admin.login'
 
