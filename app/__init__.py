@@ -46,10 +46,6 @@ def create_app(config_class=Config):
 
     app.register_blueprint(main_bp)
 
-
-    #for student/user from weapp
-
-
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
     

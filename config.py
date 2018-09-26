@@ -7,8 +7,7 @@ class Config(object):
     LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
     UPLOADED_PHOTOS_DEST = os.path.join(basedir, 'app/static/images/users')
     UPLOADED_POSTS_DEST = os.path.join(basedir, 'app/static/images/posts')
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.environ.get('SECRET_KEY') or \
                 'dasdaa13as12SQ'
