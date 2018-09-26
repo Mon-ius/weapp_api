@@ -1,7 +1,7 @@
 from flask import flash, redirect, render_template, request, url_for
 from flask_babel import _
 from flask_babel import lazy_gettext as _l
-from flask_images import resized_img_src
+
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.urls import url_parse
 
