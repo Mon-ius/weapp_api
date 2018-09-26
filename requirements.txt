@@ -1,3 +1,4 @@
+flask_uploads
 alembic==0.9.6
 Babel==2.5.1
 blinker==1.4

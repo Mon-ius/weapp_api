@@ -52,7 +52,9 @@
 
 > python ./run.py
 
+## Heroku
 
+### git push heroku deploy:master
 
 ## Usage
 

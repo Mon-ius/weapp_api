@@ -21,8 +21,9 @@ def index():
 
     form = [{k: v.__dict__[k] for k in col} for v in students]
     for i, j in enumerate(form):
-        form[i]['avatar'] = "data:image/png;base64," + \
-            base64.b64encode(j['avatar']).decode('utf8')
+        if(j['avatar']):
+            form[i]['avatar'] = "data:image/png;base64," + \
+                base64.b64encode(j['avatar']).decode('utf8')
     print(form)
     return render_template('admin/index.html', title=_('Controler'), form=form,student="is-active")
 
@@ -36,8 +37,9 @@ def teacher():
 
     form = [{k: v.__dict__[k] for k in col} for v in teachers]
     for i, j in enumerate(form):
-        form[i]['avatar'] = "data:image/png;base64," + \
-            base64.b64encode(j['avatar']).decode('utf8')
+        if(j['avatar']):
+            form[i]['avatar'] = "data:image/png;base64," + \
+                base64.b64encode(j['avatar']).decode('utf8')
     print(form)
     return render_template('admin/teacher.html', title=_('Controler'), form=form, teacher="is-active")
 
@@ -53,8 +55,9 @@ def task():
     form = [{k: v.__dict__[k] for k in col} for v in tasks]
 
     for i,j in enumerate(form):
-        form[i]['picture'] = "data:image/png;base64," + \
-            base64.b64encode(j['picture']).decode('utf8')
+        if j['picture']:
+            form[i]['picture'] = "data:image/png;base64," + \
+                base64.b64encode(j['picture']).decode('utf8')
     # formx = list(map(lambda x:base64.b64encode(x['avatar']),form))
 
     print(form)
