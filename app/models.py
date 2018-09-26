@@ -57,7 +57,7 @@ class Student(db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     exam_date = db.Column(db.DateTime, default=datetime.utcnow)
     exam_type = db.Column(db.String(64))
-    score = db.Column(db.Float(100))
+    score = db.Column(db.Float(5))
     avatar = db.Column(db.LargeBinary)
 
     # teach_id = db.Column(db.Integer, db.ForeignKey('teacher.id'))

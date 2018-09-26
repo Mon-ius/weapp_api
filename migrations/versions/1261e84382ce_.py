@@ -1,8 +1,8 @@
-"""init tables
+"""empty message
 
-Revision ID: 034ac4dd9632
+Revision ID: 1261e84382ce
 Revises: 
-Create Date: 2018-08-29 00:15:11.889823
+Create Date: 2018-09-27 04:04:46.230048
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '034ac4dd9632'
+revision = '1261e84382ce'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,7 +27,7 @@ def upgrade():
     sa.Column('email', sa.String(length=120), nullable=True),
     sa.Column('exam_date', sa.DateTime(), nullable=True),
     sa.Column('exam_type', sa.String(length=64), nullable=True),
-    sa.Column('score', sa.Float(precision=100), nullable=True),
+    sa.Column('score', sa.Float(precision=5), nullable=True),
     sa.Column('avatar', sa.LargeBinary(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
@@ -36,13 +36,13 @@ def upgrade():
     op.create_table('teacher',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(length=64), nullable=True),
+    sa.Column('engname', sa.String(length=64), nullable=True),
     sa.Column('password_hash', sa.String(length=128), nullable=True),
     sa.Column('email', sa.String(length=120), nullable=True),
-    sa.Column('teach_date', sa.DateTime(), nullable=True),
     sa.Column('teach_type', sa.String(length=64), nullable=True),
+    sa.Column('teach_date', sa.DateTime(), nullable=True),
     sa.Column('teach_type_part', sa.String(length=64), nullable=True),
     sa.Column('avatar', sa.LargeBinary(), nullable=True),
-    sa.Column('engname', sa.String(length=64), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_teacher_email'), 'teacher', ['email'], unique=True)
