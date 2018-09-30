@@ -1,5 +1,5 @@
 from flask import (abort, flash, g, jsonify, redirect, render_template, make_response,
-                   request, url_for)
+                   request, url_for,current_app)
 from flask_babel import _
 from flask_babel import lazy_gettext as _l
 
@@ -128,10 +128,6 @@ class We_Api(Resource):
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument(
-            'appid', type=str, location='json')
-        self.reqparse.add_argument(
-            'secret', type=str, location='json')
-        self.reqparse.add_argument(
             'js_code', type=str, location='json')
 
         super(We_Api, self).__init__()
@@ -140,8 +136,9 @@ class We_Api(Resource):
 
     def post(self):  # Need changed
         args = self.reqparse.parse_args()
-        appid = args['appid']
-        secret = args['secret']
+        appid = current_app.config['APP_ID']
+        secret = current_app.config['APP_KEY']
+
         js_code = args['js_code']
 
         print(appid, secret, js_code)

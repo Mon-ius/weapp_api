@@ -23,3 +23,7 @@ class Config(object):
 
     ADMINS = ['your-email@example.com']
     POSTS_PER_PAGE = 25
+
+    APP_ID = os.environ.get('APP_ID')
+    APP_KEY = os.environ.get('APP_KEY')
+
