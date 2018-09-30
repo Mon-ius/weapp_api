@@ -11,6 +11,7 @@ from app.fields import stu_fields
 from app.models import Student
 from ext import auth, db
 
+import requests
 
 def abort_if_stu_doesnt_exist(id):
     stu = Student.query.get(id)
@@ -120,4 +121,50 @@ class StuListAPI(Resource):
         print(g.stu)
         token = g.stu.generate_auth_token(600)
         return {'token': token.decode('ascii'), 'duration': 600}
+
+
+class We_Api(Resource):
+
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument(
+            'appid', type=str, location='json')
+        self.reqparse.add_argument(
+            'secret', type=str, location='json')
+        self.reqparse.add_argument(
+            'js_code', type=str, location='json')
+
+        super(We_Api, self).__init__()
+
+
+
+    def post(self):  # Need changed
+        args = self.reqparse.parse_args()
+        appid = args['appid']
+        secret = args['secret']
+        js_code = args['js_code']
+
+        print(appid, secret, js_code)
+        tmp={}
+        if appid is None or secret is None or js_code is None:
+            abort(400)
+
+        data = {
+            "appid": appid,
+            "secret": secret,
+            "js_code": js_code,
+            "grant_type": "grant_type"
+        }
+        url = "https://api.weixin.qq.com/sns/jscode2session"
+        r = requests.get(url, data)
+
+
+        if r.status_code ==200:
+            print(r.json())
+            tmp = r.json()
+            return tmp
+
+        return {
+            'js_code': js_code
+        }
 

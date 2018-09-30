@@ -28,12 +28,13 @@ def create_app(config_class=Config):
     app.register_blueprint(admin_bp)
     
     from app.auth import bp as auth_bp  
-    from app.auth.routes import StuAPI,StuListAPI
+    from app.auth.routes import StuAPI, StuListAPI, We_Api
 
     api_stu = Api(auth_bp)
 
     api_stu.add_resource(StuListAPI, '/stu')
     api_stu.add_resource(StuAPI, '/stu/<int:id>')
+    api_stu.add_resource(We_Api, '/weapi')
     app.register_blueprint(auth_bp)
     
     from app.main import bp as main_bp  
