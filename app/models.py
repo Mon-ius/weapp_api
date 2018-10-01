@@ -4,7 +4,7 @@ from hashlib import md5
 from time import time
 
 import jwt
-from flask import abort, current_app, url_for, current_app
+from flask import abort, current_app, url_for
 from flask_httpauth import HTTPBasicAuth
 from flask_login import UserMixin
 from flask_restful import Resource, fields, marshal, reqparse
@@ -49,12 +49,14 @@ ass = db.Table('ass',
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
+    nickname = db.Column(db.String(64), unique=True)
     realname = db.Column(db.String(64))
     engname = db.Column(db.String(64))
 
     password_hash = db.Column(db.String(128))
 
-    email = db.Column(db.String(120), index=True, unique=True)
+    email = db.Column(db.String(120),  unique=True)
+    phone = db.Column(db.String(120),  unique=True)
     exam_date = db.Column(db.DateTime, default=datetime.utcnow)
     exam_type = db.Column(db.String(64))
     score = db.Column(db.Float(5))
@@ -84,13 +86,16 @@ class Student(db.Model):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token)
+
         except SignatureExpired:
+
             return None    # valid token, but expired
         except BadSignature:
-            return None    # invalid token
-        user = User.query.get(data['id'])
-        return user
 
+            return None    # invalid token
+        stu = Student.query.get(data['id'])
+        return stu
+        
 class Teacher(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)

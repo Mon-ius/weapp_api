@@ -37,10 +37,10 @@ class TaskAPI(Resource):
         args = self.reqparse.parse_args()
         for k, v in args.items():
             if v != None:
-                task.__dict__[k] = v
+                task.__setattr__(k,v)
 
         print(task.__dict__)
-        db.session.merge(t)
+        db.session.commit()
         return {'task': marshal(task, task_fields)}
 
     def delete(self, id):

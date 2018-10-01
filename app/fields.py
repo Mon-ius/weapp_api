@@ -1,16 +1,19 @@
-from flask_restful import Resource, reqparse, fields, marshal
-from passlib.apps import custom_app_context as pwd_context
 from flask import abort, url_for
+from flask_restful import Resource, fields, marshal, reqparse
+from passlib.apps import custom_app_context as pwd_context
 
 stu_fields = {
     'id': fields.Integer,
     'username': fields.String,
+    'nickname': fields.String,
     'realname': fields.String,
     'engname': fields.String,
     'email': fields.String,
+    'phone': fields.String,
     'exam_date': fields.DateTime,
     'exam_type': fields.String,
-    'score': fields.Float
+    'score': fields.Float,
+    'avatar': fields.String
 }
 
 task_fields = {
@@ -27,5 +30,3 @@ tasks_fields = {
     'body': fields.String,
     'done': fields.Boolean,
 }
-
-

@@ -196,11 +196,13 @@ curl -u miguel:python -i -H "Content-Type: application/json" -X PUT -d '{"title"
 
 
 
-curl -u monius:fuckadmin -i -X DELETE http://127.0.0.1:5000/stu
+curl -u monius:fuckadmin -i  -X DELETE http://127.0.0.1:5000/stu
 curl -u monius:fuckadmin -i -X GET http://127.0.0.1:5000/stu/1
+curl -u eyJhbGciOiJIUzI1NiIsImlhdCI6MTUzODM4MTA2MiwiZXhwIjoxNTM4MzgxNjYyfQ.eyJpZCI6MX0.uK3u55YGBz8QIQ63E6Sa6TiYdVWsrlU0Iw_9vWmG_Ro -i -X GET http://127.0.0.1:5000/stu/1
 curl  -i -H "Content-Type: application/json" -X POST -d '{"username":"monius","password":"fuckadmin"}' http://127.0.0.1:5000/stu
 curl  -i -H "Content-Type: application/json" -X POST -d '{"appid":"monius","secret":"secret","js_code":"fuckadmin"}' http://127.0.0.1:5000/weapi
-curl -u monius:fuckadmin -i -H "Content-Type: application/json" -X POST -d '{"username":"quryfine","realname":"quryfine","engname":"fuck"}' http://127.0.0.1:5000/stu/1
+curl -u monius:fuckadmin -i -H "Content-Type: application/json" -X POST -d '{"nickname":"quryfine","realname":"quryfine","engname":"fuck"}' http://127.0.0.1:5000/stu/1
+
 
 curl -u monius:fuckadmin -i -H "Content-Type: application/json" -X POST -d '{"username":"quryfine","realname":"quryfine","engname":"fuck","email":"fuckyou@asshole.com","exam_type":"1","score":"32.0"}' http://127.0.0.1:5000/stu/1
 

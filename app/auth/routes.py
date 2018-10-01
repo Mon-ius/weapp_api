@@ -1,8 +1,10 @@
-from flask import (abort, flash, g, jsonify, redirect, render_template, make_response,
-                   request, url_for,current_app)
+import base64
+
+import requests
+from flask import (abort, current_app, flash, g, jsonify, make_response,
+                   redirect, render_template, request, url_for)
 from flask_babel import _
 from flask_babel import lazy_gettext as _l
-
 from flask_login import current_user, login_user, logout_user
 from flask_restful import Resource, fields, marshal, reqparse
 
@@ -11,13 +13,13 @@ from app.fields import stu_fields
 from app.models import Student
 from ext import auth, db
 
-import requests
 
 def abort_if_stu_doesnt_exist(id):
     stu = Student.query.get(id)
     if not stu:
         abort(400, "Stu {} doesn't exist".format(id))
     return stu
+
 
 @auth.error_handler
 def unauthorized():
@@ -33,15 +35,18 @@ def verify_password(username_or_token, password):
         if not stu or not stu.verify_password(password):
             return False
     g.stu = stu
-    print(g.stu)
     return True
+
 
 class StuAPI(Resource):
     decorators = [auth.login_required]
+
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument(
             'username', type=str, location='json')
+        self.reqparse.add_argument(
+            'nickname', type=str, location='json')
         self.reqparse.add_argument(
             'realname', type=str, location='json')
         self.reqparse.add_argument(
@@ -49,36 +54,46 @@ class StuAPI(Resource):
         self.reqparse.add_argument(
             'email', type=str, location='json')
         self.reqparse.add_argument(
+            'phone', type=str, location='json')
+        self.reqparse.add_argument(
             'exam_type', type=str, location='json')
         self.reqparse.add_argument(
             'score', type=str, location='json')
+        self.reqparse.add_argument(
+            'avatar', type=str, location='json')
         super(StuAPI, self).__init__()
 
     def get(self, id):
         stu = abort_if_stu_doesnt_exist(id)
         return {'Student': marshal(stu, stu_fields)}
 
-    def post(self,id):
+    def post(self, id):
         stu = abort_if_stu_doesnt_exist(id)
-        print(stu)
         args = self.reqparse.parse_args()
+        if stu != g.stu:
+            return {
+                'student': marshal(stu, stu_fields),
+                'error': "failed,not owner"
+            }
+        print(args)
         for k, v in args.items():
             if v != None:
-                stu.__dict__[k] = v
+                stu.__setattr__(k, v)
 
-        print(stu.__dict__)
-        db.session.merge(stu)
+        if stu.avatar:
+            stu.__setattr__("avatar", base64.b64decode(
+                stu.avatar.encode('utf8')))
+
+        db.session.commit()
         return {'student': marshal(stu, stu_fields)}
 
-    def delete(self,id):
-        if g.stu.username=="monius":
+    def delete(self, id):
+        if g.stu.username == "monius":
             stu = abort_if_stu_doesnt_exist(id)
             db.session.delete(stu)
             db.session.commit()
             return {'result': True}
         return {'result': False}
-
-
 
 
 class StuListAPI(Resource):
@@ -100,7 +115,7 @@ class StuListAPI(Resource):
         students = list(map(lambda x: marshal(x.__dict__, stu_fields), ss))
         return {'students': students}
 
-    def post(self):##Need changed
+    def post(self):  # Need changed
         args = self.reqparse.parse_args()
         username = args['username']
         password = args['password']
@@ -119,7 +134,8 @@ class StuListAPI(Resource):
     @auth.login_required
     def delete(self):
         print(g.stu)
-        token = g.stu.generate_auth_token(600)
+        # token = g.stu.generate_auth_token(600)
+        token = g.stu.generate_auth_token()
         return {'token': token.decode('ascii'), 'duration': 600}
 
 
@@ -132,20 +148,17 @@ class We_Api(Resource):
 
         super(We_Api, self).__init__()
 
-
-
-    def post(self):  # Need changed
+    def post(self):
         args = self.reqparse.parse_args()
         appid = current_app.config['APP_ID']
         secret = current_app.config['APP_KEY']
 
         js_code = args['js_code']
 
-        print(appid, secret, js_code)
-        tmp={}
         if appid is None or secret is None or js_code is None:
             abort(400)
 
+        tmp = {}
         data = {
             "appid": appid,
             "secret": secret,
@@ -155,13 +168,20 @@ class We_Api(Resource):
         url = "https://api.weixin.qq.com/sns/jscode2session"
         r = requests.get(url, data)
 
-
-        if r.status_code ==200:
-            print(r.json())
+        if r.status_code == 200:
             tmp = r.json()
+            stu = Student.query.filter_by(username=js_code).first()
+            if stu is None:
+                stu = Student(username=tmp['openid'])
+                stu.hash_password(['openid'][:-2])
+                db.session.add(stu)
+                db.session.commit()
+            g.stu = stu
+            session_value = g.stu.generate_auth_token(tmp['expires_in'])
+            tmp['session_value'] = session_value.decode('ascii')
             return tmp
 
         return {
-            'js_code': js_code
+            'js_code': js_code,
+            'error': True
         }
-
