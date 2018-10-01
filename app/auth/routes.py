@@ -155,7 +155,7 @@ class We_Api(Resource):
 
         js_code = args['js_code']
 
-        if appid is None or secret is None or js_code is None:
+        if js_code is None:
             abort(400)
 
         tmp = {}
@@ -165,11 +165,15 @@ class We_Api(Resource):
             "js_code": js_code,
             "grant_type": "grant_type"
         }
+        print(data)
         url = "https://api.weixin.qq.com/sns/jscode2session"
         r = requests.get(url, data)
 
         if r.status_code == 200:
             tmp = r.json()
+            print(tmp)
+            if not "expires_in" in tmp.keys():
+                return tmp
             stu = Student.query.filter_by(username=js_code).first()
             if stu is None:
                 stu = Student(username=tmp['openid'])
