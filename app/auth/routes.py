@@ -144,7 +144,7 @@ class We_Api(Resource):
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument(
-            'js_code', type=str, location='json')
+            'js_code', type=str, required=True, help='No js code provided', location='json')
 
         super(We_Api, self).__init__()
 
@@ -165,12 +165,13 @@ class We_Api(Resource):
             "js_code": js_code,
             "grant_type": "grant_type"
         }
-        print(data)
+        
         url = "https://api.weixin.qq.com/sns/jscode2session"
-        r = requests.get(url, data)
+        r = requests.get(url, params=data)
 
         if r.status_code == 200:
             tmp = r.json()
+            print(data)
             print(tmp)
             if not "expires_in" in tmp.keys():
                 return tmp

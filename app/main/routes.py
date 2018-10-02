@@ -83,3 +83,32 @@ class TaskListAPI(Resource):
         args['id']=len(Task.query.all())
 
         return {'task': marshal(args, tasks_fields)}
+
+
+class OpenRes(Resource):
+
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument(
+            'id', type=str, location='json')
+        super(OpenRes, self).__init__()
+
+    def get(self):
+
+        return {'message': "get success"}
+        
+
+    def post(self):
+        args = self.reqparse.parse_args()
+        message = args['id']
+
+        return {'message': message}
+
+    def put(self):
+        args = self.reqparse.parse_args()
+        message = args['id']
+
+        return {'message': "put success"}
+
+    def delete(self):
+        return {'message': "delete success"}

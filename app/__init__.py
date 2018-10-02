@@ -38,12 +38,13 @@ def create_app(config_class=Config):
     app.register_blueprint(auth_bp)
     
     from app.main import bp as main_bp  
-    from app.main.routes import TaskAPI , TaskListAPI
+    from app.main.routes import TaskAPI , TaskListAPI,OpenRes
 
     api_main = Api(main_bp)
 
     api_main.add_resource(TaskListAPI, '/tasks')
     api_main.add_resource(TaskAPI, '/tasks/<int:id>')
+    api_main.add_resource(OpenRes, '/res')
 
     app.register_blueprint(main_bp)
 

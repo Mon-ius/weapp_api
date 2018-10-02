@@ -215,3 +215,10 @@ curl -u miguel:python -i -H "Content-Type: application/json" -X POST -d '{"title
 
 
 https://segmentfault.com/a/1190000015310626
+
+### Test parameters
+
+curl -i -X GET http://127.0.0.1:5000/res
+curl -i -H "Content-Type: application/json" -X POST -d '{"id":"1233"}' http://127.0.0.1:5000/res
+curl -i -X PUT http://127.0.0.1:5000/res
+curl -i -X DELETE http://127.0.0.1:5000/res
