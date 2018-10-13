@@ -10,19 +10,16 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    db.init_app(app)  # SQLite初始化
-    migrate.init_app(app, db)  # 数据库迁移初始化
-    bootstrap.init_app(app)  # Bootstrap初始化
-    babel.init_app(app)  # I18nL10n 初始化
+    db.init_app(app)  
+    migrate.init_app(app, db)  
+    bootstrap.init_app(app)  
+    babel.init_app(app) 
 
-    login.init_app(app)  # 用户系统 初始化
+    login.init_app(app)  
     login.login_view = 'admin.login'
 
-    # api.init_app(app)
-
-
-    configure_uploads(app, (photos, sphotos))  # 文件系统初始化
-    patch_request_class(app)  # 文件大小限制，默认为16MB
+    configure_uploads(app, (photos, sphotos))  
+    patch_request_class(app)  
 
     from app.admin import bp as admin_bp  
     app.register_blueprint(admin_bp)
@@ -70,7 +67,9 @@ def create_app(config_class=Config):
             app.logger.addHandler(file_handler)
 
         app.logger.setLevel(logging.INFO)
-        app.logger.info('Weapi startup')
+        app.logger.info('*'*45)
+        app.logger.info('*'*3+'    '*3+'Weapp_API Startup'+'    '*3+'*'*3)
+        app.logger.info('*'*45)
     return app
 
 
