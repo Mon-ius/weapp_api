@@ -127,6 +127,8 @@ class StuListAPI(Resource):
         args = self.reqparse.parse_args()
         username = args['username']
         password = args['password']
+        print("CREATE")
+        print(username,password)
         if username is None or password is None:
             abort(400)
         if Student.query.filter_by(username=username).first() is not None:
@@ -163,7 +165,7 @@ class We_Api(Resource):
 
         js_code = args['js_code']
         print("--- weapp appid :"+ appid)
-        print("--- weapp js_code :" + appid)
+        print("--- weapp js_code :" + js_code)
 
         
 

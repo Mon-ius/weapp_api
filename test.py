@@ -68,6 +68,8 @@ def inject(usr,passwd,data,target):
 
 
 if __name__ == '__main__':
+    # url_01 = "http://weapi.monius.top/stu"
+    # url_02 = "http://weapi.monius.top/stu/"
     url_01 = "http://127.0.0.1:5000/stu"
     url_02 = "http://127.0.0.1:5000/stu/"
     students = gen_stu()
