@@ -16,8 +16,9 @@ labels = ["username","nickname", "realname", "engname",
 def gen_stu():
     stu = []
     f = Faker()
-    for _ in range(100):
+    for _ in range(2):
         s = f.uuid4()
+        print(s)
         passwd = s[:-2]
         fakes=[
                 s,
@@ -40,6 +41,7 @@ def gen_stu():
 
 def auth(usr,passwd,target):
     
+    print("auth "+usr)
     data = {"username": usr, "password": passwd}
     header = {"Content-Type": "application/json"}
 
@@ -54,7 +56,10 @@ def inject(usr,passwd,data,target):
 
     header = {"Content-Type": "application/json"}
 
-    q = r.post(target, json=data, headers=header,auth=(usr,passwd))
+    #https://[domain]/stu/<usr>
+    print("inject "+target+usr)
+    # print("Inject "+usr)
+    q = r.put(target+usr, json=data, headers=header,auth=(usr,passwd))
 
     if q.status_code==200:
         print(q.json())
@@ -72,5 +77,8 @@ if __name__ == '__main__':
         usr, passwd = stu['auth']['usr'], stu['auth']['passwd']
         data = stu['info']
 
+        print("begin "+usr)
+        print(data)
         auth(usr, passwd, target=url_01)
-        inject(usr, passwd, data,target=url_02+str(i+2))
+        inject(usr, passwd, data,target=url_02)
+        print("end ")

@@ -56,16 +56,18 @@
 
 ### git push heroku deploy:master
 
-## Usage
+## Usage && Methods
 
+
+```
 ==========  ===============================================  =============================
-HTTP 方法   URL                                               动作
+HTTP Method   URL                                               Actions
 ==========  ===============================================  ==============================
-GET         http://[hostname]/todo/api/v1.0/tasks                 Get the tasks list
-GET         http://[hostname]/todo/api/v1.0/tasks/[task_id]       检索某个任务
-POST        http://[hostname]/todo/api/v1.0/tasks                 创建新任务
-PUT         http://[hostname]/todo/api/v1.0/tasks/[task_id]       更新任务
-DELETE      http://[hostname]/todo/api/v1.0/tasks/[task_id]       删除任务
+GET         http://[hostname]/stu/                           Get the students list
+GET         http://[hostname]/stu/[stu_id]                   Get a students list
+POST        http://[hostname]/stu/                           Create a new student 
+PUT         http://[hostname]/stu/[stu_id]                   Update a student info
+DELETE      http://[hostname]/stu/[stu_id]                   Delete a student
 ==========  ================================================ =============================
 
 ==========  ===============================================  =============================
@@ -89,6 +91,7 @@ PUT         http://[hostname]/todo/api/v1.0/answers/[answer_id]    更新回答
 DELETE      http://[hostname]/todo/api/v1.0/answers/[answer_id]    删除回答
 ==========  ================================================ =============================
 
+```
 ## TestData
 from avatar_generator import Avatar
 from faker import Faker

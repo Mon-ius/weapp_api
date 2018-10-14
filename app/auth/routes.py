@@ -15,7 +15,8 @@ from ext import auth, db
 
 
 def abort_if_stu_doesnt_exist(id):
-    stu = Student.query.get(id)
+    stu = Student.query.filter_by(username=id).first()
+    print("--- Find user : "+ stu.username)
     if not stu:
         abort(400, "Stu {} doesn't exist".format(id))
     return stu
@@ -29,11 +30,13 @@ def unauthorized():
 @auth.verify_password
 def verify_password(username_or_token, password):
     stu = Student.verify_auth_token(username_or_token)
+    
     if not stu:
         # try to authenticate with username/password
         stu = Student.query.filter_by(username=username_or_token).first()
         if not stu or not stu.verify_password(password):
             return False
+    print("--- Login user : " + stu.username)
     g.stu = stu
     return True
 
@@ -67,10 +70,15 @@ class StuAPI(Resource):
         stu = abort_if_stu_doesnt_exist(id)
         return {'Student': marshal(stu, stu_fields)}
 
-    def post(self, id):
+    def put(self, id):
         stu = abort_if_stu_doesnt_exist(id)
+
+        print("--- PUT user : " + stu.username)
+        print("--- PUT current user : " + stu.username)
         args = self.reqparse.parse_args()
         if stu != g.stu:
+            print(g.stu)
+            print(stu)
             return {
                 'student': marshal(stu, stu_fields),
                 'error': "failed,not owner"
@@ -154,6 +162,10 @@ class We_Api(Resource):
         secret = current_app.config['APP_KEY']
 
         js_code = args['js_code']
+        print("--- weapp appid :"+ appid)
+        print("--- weapp js_code :" + appid)
+
+        
 
         if js_code is None:
             abort(400)
@@ -171,7 +183,6 @@ class We_Api(Resource):
 
         if r.status_code == 200:
             tmp = r.json()
-            print(data)
             print(tmp)
             if not "expires_in" in tmp.keys():
                 return tmp
@@ -181,8 +192,8 @@ class We_Api(Resource):
                 stu.hash_password(['openid'][:-2])
                 db.session.add(stu)
                 db.session.commit()
-            g.stu = stu
-            session_value = g.stu.generate_auth_token(tmp['expires_in'])
+            
+            session_value = stu.generate_auth_token(tmp['expires_in'])
             tmp['session_value'] = session_value.decode('ascii')
             return tmp
 

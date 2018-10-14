@@ -1,4 +1,6 @@
 Flask
+PyJWT
+passlib
 requests
 python-dotenv
 # gevent preinstall
