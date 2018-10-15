@@ -186,10 +186,10 @@ class We_Api(Resource):
             # print(tmp)
             # tmp['openid']=js_code
             # tmp['expires_in']=233
-            if not "expires_in" in tmp.keys():
+            if not "expires_in" in tmp.keys() and not "openid" in tmp.keys():
                 print("nonononono")
                 return tmp
-            stu = Student.query.filter_by(username=js_code).first()
+            stu = Student.query.filter_by(username=tmp['openid']).first()
             if stu is None:
                 stu = Student(username=tmp['openid'])
                 stu.hash_password(tmp['openid'][:-2])
