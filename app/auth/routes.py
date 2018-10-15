@@ -167,8 +167,6 @@ class We_Api(Resource):
         print("--- weapp appid :"+ appid)
         print("--- weapp js_code :" + js_code)
 
-        
-
         if js_code is None:
             abort(400)
 
@@ -185,13 +183,16 @@ class We_Api(Resource):
 
         if r.status_code == 200:
             tmp = r.json()
-            print(tmp)
+            # print(tmp)
+            # tmp['openid']=js_code
+            # tmp['expires_in']=233
             if not "expires_in" in tmp.keys():
+                print("nonononono")
                 return tmp
             stu = Student.query.filter_by(username=js_code).first()
             if stu is None:
                 stu = Student(username=tmp['openid'])
-                stu.hash_password(['openid'][:-2])
+                stu.hash_password(tmp['openid'][:-2])
                 db.session.add(stu)
                 db.session.commit()
             

@@ -64,32 +64,32 @@
 HTTP Method   URL                                               Actions
 ==========  ===============================================  ==============================
 GET         http://[hostname]/stu/                           Get the students list
-GET         http://[hostname]/stu/[stu_id]                   Get a students list
+GET         http://[hostname]/stu/[stu_id]                   Get a student info
 POST        http://[hostname]/stu/                           Create a new student 
 PUT         http://[hostname]/stu/[stu_id]                   Update a student info
 DELETE      http://[hostname]/stu/[stu_id]                   Delete a student
 ==========  ================================================ =============================
 
 ==========  ===============================================  =============================
-HTTP 方法   URL                                               动作
+HTTP Method   URL                                               Actions
 ==========  ===============================================  ==============================
-GET         http://[hostname]/todo/api/v1.0/answers                检索回答列表
-GET         http://[hostname]/todo/api/v1.0/answers/[answer_id]    检索某个回答
-POST        http://[hostname]/todo/api/v1.0/answers                创建回答
-PUT         http://[hostname]/todo/api/v1.0/answers/[answer_id]    更新回答
-DELETE      http://[hostname]/todo/api/v1.0/answers/[answer_id]    删除回答
+GET         http://[hostname]/answers/                        Get the answers list
+GET         http://[hostname]/answers/[answer_id]             Get an answers info
+POST        http://[hostname]/answers/                        Create a new student
+PUT         http://[hostname]/[answer_id]                     Update a student info
+DELETE      http://[hostname]/answers/[answer_id]             Delete a student
 ==========  ================================================ =============================
 
 
 ==========  ===============================================  =============================
-HTTP 方法   URL                                               动作
+HTTP Method   URL                                               Actions
 ==========  ===============================================  ==============================
-GET         http://[hostname]/auth/api/v1.0/answers                检索回答列表
-GET         http://[hostname]/todo/api/v1.0/answers/[answer_id]    检索某个回答
-POST        http://[hostname]/todo/api/v1.0/answers                创建回答
-PUT         http://[hostname]/todo/api/v1.0/answers/[answer_id]    更新回答
-DELETE      http://[hostname]/todo/api/v1.0/answers/[answer_id]    删除回答
+
+POST        http://[hostname]/weapi/                          create a new user or token
+
 ==========  ================================================ =============================
+
+
 
 ```
 ## TestData
