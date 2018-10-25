@@ -71,11 +71,16 @@ def create_app(config_class=Config):
         app.logger.info('*'*3+'    '*3+'Weapp_API Startup'+'    '*3+'*'*3)
         app.logger.info('*'*45)
 
-        if app.config['ADMIN']:
+        try:
             app.logger.info('*'*45)
-            app.logger.info('*'*3+'    '*3+app.config['ADMIN']+'    '*3+'*'*3)
+            app.logger.info('*'*3+'    '*3+app.config['ADMINS']+'    '*3+'*'*3)
             app.logger.info('*'*3+'    '*3+app.config['SECRET_KEY']+'    '*3+'*'*3)
             app.logger.info('*'*45)
+        except KeyError:
+            app.logger.info('*'*45)
+            app.logger.info('*'*3+'    '*3+"GET ADMINS Failed"+'    '*3+'*'*3)
+            app.logger.info('*'*45)
+
         
     return app
 
