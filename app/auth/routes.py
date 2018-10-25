@@ -186,17 +186,19 @@ class We_Api(Resource):
             # print(tmp)
             # tmp['openid']=js_code
             # tmp['expires_in']=233
-            if not "expires_in" in tmp.keys() and not "openid" in tmp.keys():
+            if not "expires_in" in tmp.keys() or not "openid" in tmp.keys():
                 print("nonononono")
                 return tmp
             stu = Student.query.filter_by(username=tmp['openid']).first()
+            print(stu)
             if stu is None:
                 stu = Student(username=tmp['openid'])
                 stu.hash_password(tmp['openid'][:-2])
                 db.session.add(stu)
                 db.session.commit()
             
-            session_value = stu.generate_auth_token(tmp['expires_in'])
+            
+            session_value = stu.generate_auth_token()
             tmp['session_value'] = session_value.decode('ascii')
             return tmp
 
@@ -204,3 +206,16 @@ class We_Api(Resource):
             'js_code': js_code,
             'error': True
         }
+class UploadWavAPI(Resource):
+    def post(self):
+        parse = reqparse.RequestParser()
+        parse.add_argument('audio', type=werkzeug.FileStorage, location='files')
+
+        args = parse.parse_args()
+
+        stream = args['audio'].stream
+        wav_file = wave.open(stream, 'rb')
+        signal = wav_file.readframes(-1)
+        signal = np.fromstring(signal, 'Int16')
+        fs = wav_file.getframerate()
+        wav_file.close()

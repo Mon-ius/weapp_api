@@ -48,6 +48,9 @@ GRANT ALL PRIVILEGES ON DATABASE {{database_name}} to {{user}};
 
 ### python-dotenv
 
+pip install python-dotenv
+- ``` load_dotenv(os.path.join(basedir, '.env')) ```
+
 
 ## Auto deploy script
 
@@ -79,3 +82,8 @@ GRANT ALL PRIVILEGES ON DATABASE {{database_name}} to {{user}};
 
 ### iot.service
 
+/etc/systemd/system
+
+- sudo systemctl enable iot
+- sudo systemctl start iot
+- sudo journalctl -u [unit]

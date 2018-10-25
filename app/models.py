@@ -155,3 +155,18 @@ class Answer(db.Model):
 
     def __repr__(self):
         return '<Anwser {}>'.format(self.title)
+
+class File(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80), nullable=False)
+    body = db.Column(db.Text, nullable=False)
+    picture = db.Column(db.LargeBinary)
+    sound = db.Column(db.LargeBinary)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    task_id = db.Column(db.Integer, db.ForeignKey('task.id'))
+
+    stu_id = db.Column(db.Integer, db.ForeignKey('student.id'))
+
+    def __repr__(self):
+        return '<Anwser {}>'.format(self.title)
