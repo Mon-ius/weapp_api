@@ -25,4 +25,5 @@ auth = HTTPBasicAuth()
 photos = UploadSet('photos', IMAGES)
 sphotos = UploadSet('posts', IMAGES)
 # videos = UploadSet('videos', VIDEOS)
+flag = False
 desc = sqlalchemy.desc

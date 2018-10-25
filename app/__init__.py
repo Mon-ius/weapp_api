@@ -2,7 +2,7 @@ import os
 import logging
 from flask import Flask, request, current_app
 from flask_uploads import configure_uploads, patch_request_class
-from ext import db, migrate, bootstrap, Config, login, photos, sphotos, babel
+from ext import db, migrate, bootstrap, Config, login, photos, sphotos, babel,flag
 from logging.handlers import SMTPHandler, RotatingFileHandler
 from flask_restful import Api, Resource, url_for
 
@@ -68,24 +68,21 @@ def create_app(config_class=Config):
 
         app.logger.setLevel(logging.INFO)
         app.logger.info('*'*45)
-        app.logger.info('*'*3+'    '*3+'Weapp_API Startup'+'    '*3+'*'*3)
+        app.logger.info('*'*3+'    '*3+'Weapp_API Startup'+'   '*3+'*'*3)
         app.logger.info('*'*45)
 
         try:
             app.logger.info('*'*45)
-            app.logger.info('*'*3+'    '*3+app.config['ADMINS'][0]+'    '*3+'*'*3)
+            app.logger.info('*'*3+' '*3+app.config['ADMINS']+'  '*3+'*'*3)
             app.logger.info('*'*3+'    '*3+app.config['SECRET_KEY']+'    '*3+'*'*3)
             app.logger.info('*'*45)
         except KeyError:
             app.logger.info('*'*45)
-            app.logger.info('*'*3+'    '*3+"GET ADMINS Failed"+'    '*3+'*'*3)
+            app.logger.info('*'*3+'    '*3+"GET ADMINS Failed"+'   '*3+'*'*3)
             app.logger.info('*'*45)
-
-        
+        else:
+            flag=True
     return app
-
-
-
 
 from app import models
 
