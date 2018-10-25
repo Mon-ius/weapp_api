@@ -73,7 +73,7 @@ def create_app(config_class=Config):
 
         try:
             app.logger.info('*'*45)
-            app.logger.info('*'*3+'    '*3+app.config['ADMINS']+'    '*3+'*'*3)
+            app.logger.info('*'*3+'    '*3+app.config['ADMINS'][0]+'    '*3+'*'*3)
             app.logger.info('*'*3+'    '*3+app.config['SECRET_KEY']+'    '*3+'*'*3)
             app.logger.info('*'*45)
         except KeyError:
