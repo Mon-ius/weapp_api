@@ -8,37 +8,42 @@
 
 {% block app_content %}
 
-
-<h3 class="article-title is-color-kube">Teacher Info</h3>
-<table class="is-striped">
-    <thead>
-        <tr>
-            {% for key in form[-1].keys()%}
-            <th>{{key}}</th>
+{% if form|length == 0 %}
+    <div class="col-2 text-center"> <i class="fa fa-search fa-3x mb-1 grey-text" aria-hidden="true"></i> </div>
+    <div class="col-9 mb-2">
+        <p class="dark-grey-text">There is no file yet</p>
+    </div>
+{% else %}
+    <h3 class="article-title is-color-kube">Teacher Info</h3>
+    <table class="is-striped">
+        <thead>
+            <tr>
+                {% for key in form[-1].keys()%}
+                <th>{{key}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in form%}
+            <tr>
+                {% for i,j in t.items()%}
+                {% if i=='avatar' %}
+                <td>
+                    <image src="{{ j }}"></image>
+                </td>
+                {% else %}
+                <td>{{j}}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
             {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for t in form%}
-        <tr>
-            {% for i,j in t.items()%}
-            {% if i=='avatar' %}
-            <td>
-                <image src="{{ j }}"></image>
-            </td>
-            {% else %}
-            <td>{{j}}</td>
-            {% endif %}
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </tbody>
-    <tfoot>
-        <tr>
-            <td>...</td>
-        </tr>
-    </tfoot>
-</table>
-
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>...</td>
+            </tr>
+        </tfoot>
+    </table>
+{% endif %}
 
 {% endblock %}%

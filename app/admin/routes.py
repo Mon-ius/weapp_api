@@ -1,4 +1,4 @@
-from flask import flash, redirect, render_template, request, url_for
+from flask import flash, redirect, render_template, request, url_for,current_app,abort
 from flask_babel import _
 from flask_babel import lazy_gettext as _l
 
@@ -9,6 +9,7 @@ from app.admin import bp
 from app.admin.forms import LoginForm
 from app.models import User,Student,Teacher,Task,Answer
 import base64
+from ext import db
 
 @bp.route('/index', methods=['GET', 'POST'])
 @bp.route('/', methods=['GET', 'POST'])
@@ -68,6 +69,18 @@ def task():
 def logout():
     logout_user()
     return redirect(url_for('admin.index'))
+
+@bp.route('/init')
+def init():
+    admin = User.query.filter_by(username=current_app.config['ADMINS']).first()
+    if not admin:
+        admin = User(username=current_app.config['ADMINS'],email=current_app.config['ADMINS'],is_admin=True)
+        admin.set_password(current_app.config['SECRET_KEY'])
+        db.session.add(admin)
+        db.session.commit()
+        return "Hello World"
+    else:
+        abort(404)
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():

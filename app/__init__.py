@@ -2,7 +2,7 @@ import os
 import logging
 from flask import Flask, request, current_app
 from flask_uploads import configure_uploads, patch_request_class
-from ext import db, migrate, bootstrap, Config, login, photos, sphotos, babel,flag
+from ext import db, migrate, bootstrap, Config, login, photos, sphotos, babel
 from logging.handlers import SMTPHandler, RotatingFileHandler
 from flask_restful import Api, Resource, url_for
 
@@ -73,17 +73,9 @@ def create_app(config_class=Config):
 
         try:
             app.logger.info('*'*45)
-            app.logger.info('*'*3+' '*3+app.config['ADMINS']+'  '*3)
             app.logger.info('*'*3+' '*3+app.config['SECRET_KEY']+'  '*3)
             app.logger.info('*'*45)
-            from app.models import User
-            admin = User.query.filter_by(username=app.config['ADMINS']).first()
-            # if not admin:
-            #     admin = User(username=app.config['ADMINS'],email=app.config['ADMINS'],is_admin=True)
-            #     admin.set_password(app.config['SECRET_KEY'])
-            #     db.session.add(admin)
-            #     db.session.commit()
-            #     app.logger.info('*'*3+' '*3+app.config['SECRET_KEY']+'  '*3)
+
 
         except KeyError:
             app.logger.info('*'*45)
