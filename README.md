@@ -1,47 +1,55 @@
 # WEAPP_API
 
-## PreKnowledge
+- Test Host: **xideas.herokuapp.com**
+- DataBase: PostgreSQL
+- Python Version: 3.7+
 
-#### Host: **api.xxx.com**
-#### DataBase: PostgreSQL
-#### Python Version: 3.6+
+## UI
 
-
+- Backend : Flat UI
+- Weapp Client : WuxUI
 
 ## Features
 
-#### 1. User Login
+### 1. Models
 
-- add user
-- login user
-- token access 
+#### Student
 
-#### 2. Admin Control
+- OpenID based registeration
+- Session based login
 
-- View  users
-- Add/End tasks
-- Give comment
+#### Teacher
 
+coming soon
+- Sign up
+- Certification
+- Generate avatar
+- Bind wechat
 
-#### 3. Public Info Interaction
+### 2. Admin Pannel
 
-- user submmit self informations
-- user submit task materils
-- user view self tasks
-- View teachers
+- Start with admin account
+- Data explores: students/teachers/tasks
 
+### 3. System
+
+- Image process
+- Audio process
+- Files process
 
 
 ## Deploy
 
+### (Option 1.) Bare Linux
+
 #### 1. Create New virtual env (OPTIONAL)
 
 - For Anaconda
-  > conda create -n api python=3.6
+  > conda create -n api python=3.7
   > source activate api
 
 - For virtualenv
-  > virtualenv -p /usr/bin/python3.6  api
+  > virtualenv -p /usr/bin/python3.7  api
   > . api/bin/activate
 
 #### 2. Install requrements
@@ -52,11 +60,13 @@
 
 > python ./run.py
 
-## Heroku
+### (Option 2.) Heroku
 
-### git push heroku deploy:master
+#### 1. Heroku
+#### 2. Create app
+#### 3. Necessary files
+#### 3. Upload via Heroku CLI
 
-## Usage && Methods
 
 
 ```
