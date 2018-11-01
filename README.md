@@ -37,6 +37,33 @@ coming soon
 - Audio process
 - Files process
 
+### 4. Files
+
+#### Curl 
+```
+curl -F file1=@/home/monius/Pictures/Wallpapers/test.jpg -X POST http://127.0.0.1:5000/media
+```
+
+#### Python Requests 
+```
+import requests
+r = requests.post('http://127.0.0.1:5000/media', files={'file1': open('/home/monius/Pictures/Wallpapers/test.jpg','rb')})
+```
+
+#### Weapp
+
+```
+    wx.uploadFile({
+      url: 'http://127.0.0.1:5000/media',
+      filePath: "/home/monius/Pictures/Wallpapers/test.jpg",
+      name: 'file1',
+      success (res){
+        const data = res.data
+        //do something
+      }
+    })
+
+```
 
 ## Deploy
 

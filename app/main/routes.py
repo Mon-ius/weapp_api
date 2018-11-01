@@ -8,7 +8,7 @@ from app.fields import task_fields, tasks_fields
 from app.main import bp
 from app.models import Task
 from ext import auth, db
-
+import werkzeug
 
 def abort_if_task_doesnt_exist(id):
     task = Task.query.filter_by(id=id).first()
@@ -112,3 +112,31 @@ class OpenRes(Resource):
 
     def delete(self):
         return {'message': "delete success"}
+
+class MediaRes(Resource):
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        # self.reqparse.add_argument('audio', type=werkzeug.FileStorage, location='files')
+
+        self.reqparse.add_argument(
+            'file1', type=werkzeug.datastructures.FileStorage, location='files')
+        self.reqparse.add_argument(
+            'file2', type=werkzeug.datastructures.FileStorage, location='form')
+        self.reqparse.add_argument(
+            'file3', type=werkzeug.datastructures.FileStorage, location='args')
+        self.reqparse.add_argument(
+            'file4', type=werkzeug.datastructures.FileStorage, location='json')
+        self.reqparse.add_argument(
+            'file5', type=werkzeug.datastructures.FileStorage, location='args')
+        # self.reqparse.add_argument(
+        #     'file', type=werkzeug.datastructures.FileStorage, location='files')
+        super(MediaRes, self).__init__()
+
+    def post(self):
+        args = self.reqparse.parse_args()
+        
+        print(args)
+        # file = args['picture']
+        # file.save("upload/your_file_name.jpg")
+
+        return {'message': "s"}
