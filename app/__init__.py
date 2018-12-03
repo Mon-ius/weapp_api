@@ -4,7 +4,7 @@ from flask import Flask, request, current_app
 from flask_uploads import configure_uploads, patch_request_class
 from ext import db, migrate, bootstrap, Config, login, photos, sphotos, babel
 from logging.handlers import SMTPHandler, RotatingFileHandler
-from flask_restful import Api, Resource, url_for
+from flask_restful import Api
 
 def create_app(config_class=Config):
     app = Flask(__name__)

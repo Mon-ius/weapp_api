@@ -206,16 +206,3 @@ class We_Api(Resource):
             'js_code': js_code,
             'error': True
         }
-class UploadWavAPI(Resource):
-    def post(self):
-        parse = reqparse.RequestParser()
-        parse.add_argument('audio', type=werkzeug.FileStorage, location='files')
-
-        args = parse.parse_args()
-
-        stream = args['audio'].stream
-        wav_file = wave.open(stream, 'rb')
-        signal = wav_file.readframes(-1)
-        signal = np.fromstring(signal, 'Int16')
-        fs = wav_file.getframerate()
-        wav_file.close()
