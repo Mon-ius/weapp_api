@@ -3,8 +3,6 @@ PyJWT
 passlib
 requests
 python-dotenv
-# gevent preinstall
-# uwsgi preinstall 
 Flask-Restful
 Flask-Httpauth
 Flask-Uploads

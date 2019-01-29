@@ -224,6 +224,10 @@ db.session.commit()
 a = Answer(title='1',body='2')
 ```
 
+## Deploy
+
+[You can check here to deploy it ](https://github.com/Mon-ius/flask-deploy "flask-deploy")
+
 ## MIT License
 
 Copyright (c) 2018 Monius
