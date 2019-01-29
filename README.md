@@ -35,33 +35,36 @@
 
 #### Primary Model(Level 0)
 
-- View infomation(*)
-- Change infomation(*)
-- Delete infomation(*)
+- privilege
+  - View infomation(*)
+  - Change infomation(*)
+  - Delete infomation(*)
 
-- View event(*)
-- Change event(*)
-- Delete event(*)
+  - View event(*)
+  - Change event(*)
+  - Delete event(*)
 
 #### Primary Model(Level 1)
 
-- View infomation(s)
-- Change infomation(s)
-- Delete infomation(s)
+- privilege
+  - View infomation(s)
+  - Change infomation(s)
+  - Delete infomation(s)
 
-- View event(r)
-- Change event(r)
-- Delete event(r)
+  - View event(r)
+  - Change event(r)
+  - Delete event(r)
 
 #### Primary Model(Level 2)
 
-- View infomation(s)
-- Change infomation(s)
-- Delete infomation(s)
+- privilege
+  - View infomation(s)
+  - Change infomation(s)
+  - Delete infomation(s)
 
-- View event(s)
-- Change event(s)
-- Delete event(s)
+  - View event(s)
+  - Change event(s)
+  - Delete event(s)
 
 ### 3. Event model
 
