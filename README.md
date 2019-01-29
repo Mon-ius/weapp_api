@@ -11,48 +11,87 @@
 
 ## Features
 
-### 1. Models
+### 1. User System
 
-#### Student
+- basic auth
+- session/token
+- openid(wechat)
 
-- OpenID based registeration
-- Session based login
+### 2. Role model
 
-#### Teacher
+- database struct
+  - name
+  - password
+  - email
+  - phone
+  - avatar
+  - level
+  - Cluster{}
 
-coming soon
-- Sign up
-- Certification
-- Generate avatar
-- Bind wechat
+- privilege
+  - all : `*`
+  - relevant: `r`
+  - self: `s`
 
-### 2. Admin Pannel
+#### Primary Model(Level 0)
 
-- Start with admin account
-- Data explores: students/teachers/tasks
+- View infomation(*)
+- Change infomation(*)
+- Delete infomation(*)
 
-### 3. System
+- View event(*)
+- Change event(*)
+- Delete event(*)
 
-- Image process
-- Audio process
-- Files process
+#### Primary Model(Level 1)
 
-### 4. Files
+- View infomation(s)
+- Change infomation(s)
+- Delete infomation(s)
 
-#### Curl 
-```
-curl -F file1=@/home/monius/Pictures/Wallpapers/test.jpg -X POST http://127.0.0.1:5000/media
-```
+- View event(r)
+- Change event(r)
+- Delete event(r)
 
-#### Python Requests 
-```
-import requests
-r = requests.post('http://127.0.0.1:5000/media', files={'file1': open('/home/monius/Pictures/Wallpapers/test.jpg','rb')})
-```
+#### Primary Model(Level 2)
 
-#### Weapp
+- View infomation(s)
+- Change infomation(s)
+- Delete infomation(s)
 
-```
+- View event(s)
+- Change event(s)
+- Delete event(s)
+
+### 3. Event model
+
+- database struct
+  - name
+  - type
+  - content
+  - uuid
+  - image
+  - audio
+  - Cluster{}
+
+## API Test Mothed
+
+### 1. File API test
+
+#### Curl
+
+`curl -F file1=@/home/monius/Pictures/Wallpapers/test.jpg -X POST http://127.0.0.1:5000/media`
+
+#### Python
+
+  ```python
+  import requests
+  r = requests.post('http://127.0.0.1:5000/media', files={'file1': open('/home/monius/Pictures/Wallpapers/test.jpg','rb')})
+  ```
+
+#### wx
+
+```js
     wx.uploadFile({
       url: 'http://127.0.0.1:5000/media',
       filePath: "/home/monius/Pictures/Wallpapers/test.jpg",
@@ -65,71 +104,15 @@ r = requests.post('http://127.0.0.1:5000/media', files={'file1': open('/home/mon
 
 ```
 
-## Deploy
+#### dart
 
-### (Option 1.) Bare Linux
+> TO DO
 
-#### 1. Create New virtual env (OPTIONAL)
+## TestData Genetator
 
-- For Anaconda
-  > conda create -n api python=3.7
-  > source activate api
+### Fake user info
 
-- For virtualenv
-  > virtualenv -p /usr/bin/python3.7  api
-  > . api/bin/activate
-
-#### 2. Install requrements
-
-> pip install -r requirements.txt
-
-#### 3. Run
-
-> python ./run.py
-
-### (Option 2.) Heroku
-
-#### 1. Heroku
-#### 2. Create app
-#### 3. Necessary files
-#### 3. Upload via Heroku CLI
-
-
-
-```
-==========  ===============================================  =============================
-HTTP Method   URL                                               Actions
-==========  ===============================================  ==============================
-GET         http://[hostname]/stu/                           Get the students list
-GET         http://[hostname]/stu/[stu_id]                   Get a student info
-POST        http://[hostname]/stu/                           Create a new student 
-PUT         http://[hostname]/stu/[stu_id]                   Update a student info
-DELETE      http://[hostname]/stu/[stu_id]                   Delete a student
-==========  ================================================ =============================
-
-==========  ===============================================  =============================
-HTTP Method   URL                                               Actions
-==========  ===============================================  ==============================
-GET         http://[hostname]/answers/                        Get the answers list
-GET         http://[hostname]/answers/[answer_id]             Get an answers info
-POST        http://[hostname]/answers/                        Create a new student
-PUT         http://[hostname]/[answer_id]                     Update a student info
-DELETE      http://[hostname]/answers/[answer_id]             Delete a student
-==========  ================================================ =============================
-
-
-==========  ===============================================  =============================
-HTTP Method   URL                                               Actions
-==========  ===============================================  ==============================
-
-POST        http://[hostname]/weapi/                          create a new user or token
-
-==========  ================================================ =============================
-
-
-
-```
-## TestData
+```python
 from avatar_generator import Avatar
 from faker import Faker
 f = Faker()
@@ -206,8 +189,11 @@ for _ in range(10):
   db.session.add(a)
   db.session.commit()
 
+```
 
+### Fake avator
 
+```python
 import io
 from PIL import Image
 
@@ -215,6 +201,11 @@ avatar = Avatar.generate(size=128,string='example@sysnove.fr')
 image = Image.open(io.BytesIO(avatar))
 image.show()
 
+```
+
+### Fake audio
+
+```python
 import io
 from gtts import gTTS
 
@@ -228,3 +219,4 @@ db.session.commit()
 
 
 a = Answer(title='1',body='2')
+```
