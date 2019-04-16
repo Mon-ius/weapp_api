@@ -2,6 +2,16 @@ from flask import abort, url_for
 from flask_restful import Resource, fields, marshal, reqparse
 from passlib.apps import custom_app_context as pwd_context
 
+# Student info :
+## name,
+## gender,
+## phone,
+## exam_type,
+## exam_score,
+## courses,
+## teachers,
+
+
 stu_fields = {
     'id': fields.Integer,
     'username': fields.String,

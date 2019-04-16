@@ -15,11 +15,23 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from ext import db, desc, login
 
-#Teacher is not neeeded
 
+#     Teacher <=> Student -------
+#           \    /              |
+#   Answer=> Task  =>Course <__|
+#            ||
+#           File
+
+# User {name,gender,phone,email}
+# Teacher {info,students,tasks,courses} => {avatar,teach_type}
+# Student {info,students,tasks,courses} => {avatar,exam_type,exam_score}
+# Course {info,teacher,student,tasks} => {category,type}
+# Tasks {info,files,teacher,student,course} => {title,body,status}
+# files {type,file}
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
 
 class User(UserMixin, db.Model):  # 用户 ORM注册
     id = db.Column(db.Integer, primary_key=True)
@@ -45,22 +57,32 @@ ass = db.Table('ass',
                      db.Column('teach_id', db.Integer,
                                db.ForeignKey('teacher.id'))
                      )
+# Student info :
+## name,
+## gender,
+## phone,
+## exam_type,
+## exam_score,
+## tasks
+## courses,
+## teachers,
 
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True, unique=True)
-    nickname = db.Column(db.String(64), unique=True)
-    realname = db.Column(db.String(64))
-    engname = db.Column(db.String(64))
+    name = db.Column(db.String(64), index=True, unique=True)
+    gender = db.Column(db.String(20), index=True, unique=True)
+    # nickname = db.Column(db.String(64), unique=True)
+    # realname = db.Column(db.String(64))
+    # engname = db.Column(db.String(64))
 
     password_hash = db.Column(db.String(128))
 
-    email = db.Column(db.String(120),  unique=True)
+    # email = db.Column(db.String(120),  unique=True)
     phone = db.Column(db.String(120),  unique=True)
-    exam_date = db.Column(db.DateTime, default=datetime.utcnow)
+    # exam_date = db.Column(db.DateTime, default=datetime.utcnow)
     exam_type = db.Column(db.String(64))
-    score = db.Column(db.Float(5))
-    avatar = db.Column(db.LargeBinary)
+    exam_score = db.Column(db.Float(5))
+    # avatar = db.Column(db.LargeBinary)
 
     # teach_id = db.Column(db.Integer, db.ForeignKey('teacher.id'))
     teachers = db.relationship(
@@ -95,17 +117,28 @@ class Student(db.Model):
             return None    # invalid token
         stu = Student.query.get(data['id'])
         return stu
-        
+
+# Teacher info :
+## name,
+## gender,
+## phone,
+## email,
+## avatar,
+## tasks,
+## courses,
+## students,
+
 class Teacher(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True, unique=True)
-    engname = db.Column(db.String(64))
+    name = db.Column(db.String(64), index=True, unique=True)
+    # engname = db.Column(db.String(64))
     password_hash = db.Column(db.String(128))
 
+    phone = db.Column(db.String(120),  unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     teach_type = db.Column(db.String(64))
-    teach_date = db.Column(db.DateTime, default=datetime.utcnow)
-    teach_type_part = db.Column(db.String(64))
+    # teach_date = db.Column(db.DateTime, default=datetime.utcnow)
+    # teach_type_part = db.Column(db.String(64))
     avatar = db.Column(db.LargeBinary)
 
     students = db.relationship(
@@ -158,10 +191,9 @@ class Answer(db.Model):
 
 class File(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80), nullable=False)
-    body = db.Column(db.Text, nullable=False)
-    picture = db.Column(db.LargeBinary)
-    sound = db.Column(db.LargeBinary)
+    title = db.Column(db.String(96), nullable=False)
+    f_type = db.Column(db.String(32), nullable=False) # Image/Voice
+    body = db.Column(db.LargeBinary, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
     task_id = db.Column(db.Integer, db.ForeignKey('task.id'))
@@ -169,4 +201,4 @@ class File(db.Model):
     stu_id = db.Column(db.Integer, db.ForeignKey('student.id'))
 
     def __repr__(self):
-        return '<Anwser {}>'.format(self.title)
+        return '<File {}>'.format(self.title)
